@@ -13,6 +13,14 @@ import { links } from "@/utils/links";
 import { UserIcon } from "lucide-react";
 import Link from "next/link";
 import { LuAlignLeft } from "react-icons/lu";
+import SignOutLink from "./SignOutLink";
+import {
+  useSignIn,
+  useSignUp,
+  SignInButton,
+  SignUpButton,
+  Show,
+} from "@clerk/nextjs";
 
 const LinksDropdown = () => {
   return (
@@ -31,18 +39,41 @@ const LinksDropdown = () => {
         align="start"
         sideOffset={10}
       >
-        {links.map((link) => {
-          return (
-            <DropdownMenuItem key={link.href}>
-              <Link
-                href={link.href}
-                className="w-full cursor-pointer capitalize"
-              >
-                {link.label}
-              </Link>
-            </DropdownMenuItem>
-          );
-        })}
+        <Show when={"signed-out"}>
+          <DropdownMenuItem>
+            <SignInButton mode="modal">
+              <button className="w-full text-left cursor-pointer">Login</button>
+            </SignInButton>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <SignUpButton mode="modal">
+              <button className="w-full text-left cursor-pointer">
+                Register
+              </button>
+            </SignUpButton>
+          </DropdownMenuItem>
+        </Show>
+        <Show when="signed-in">
+          {links.map((link) => {
+            return (
+              <DropdownMenuItem key={link.href}>
+                <Link
+                  href={link.href}
+                  className="w-full cursor-pointer capitalize"
+                >
+                  {link.label}
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem>
+            <SignOutLink />
+          </DropdownMenuItem>
+        </Show>
       </DropdownMenuContent>
     </DropdownMenu>
   );
