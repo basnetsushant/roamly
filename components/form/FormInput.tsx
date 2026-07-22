@@ -20,6 +20,7 @@ const FormInput = (props: FormInputProps) => {
         {label || name}
       </Label>
       <Input
+        className="mt-1"
         id={name}
         name={name}
         type={type}

@@ -28,7 +28,7 @@ const LinksDropdown = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="flex gap-4 max-w-25"
+          className="flex gap-4 max-w-25 cursor-pointer"
         >
           <LuAlignLeft className="w-6 h-6" />
           <UserIcon />
