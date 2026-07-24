@@ -1,6 +1,11 @@
 "use server";
 
-import { imageSchema, profileSchema, validateWithZodSchema } from "./schemas";
+import {
+  imageSchema,
+  profileSchema,
+  propertySchema,
+  validateWithZodSchema,
+} from "./schemas";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
@@ -20,7 +25,7 @@ const getAuthUser = async () => {
   return user;
 };
 
-const rederError = (error: unknown): { message: string } => {
+const renderError = (error: unknown): { message: string } => {
   console.log(error);
   return {
     message: error instanceof Error ? error.message : "An error occurred",
@@ -59,7 +64,7 @@ export const createProfileAction = async (
       },
     });
   } catch (error) {
-    return rederError(error);
+    return renderError(error);
   }
   redirect("/");
 };
@@ -94,7 +99,7 @@ export const updateProfileAction = async (
     revalidatePath("/profile");
     return { message: "Profile updated successfully" };
   } catch (error) {
-    return rederError(error);
+    return renderError(error);
   }
 };
 
@@ -119,6 +124,23 @@ export const updateProfileImageAction = async (
     revalidatePath("/profile");
     return { message: "Profile image updated successfully" };
   } catch (error) {
-    return rederError(error);
+    return renderError(error);
   }
+};
+
+export const createPropertyAction = async (
+  prevState: any,
+  formData: FormData,
+): Promise<{ message: string }> => {
+  const user = await getAuthUser();
+
+  try {
+    const rawData = Object.entries(formData);
+    const validatedFields = validateWithZodSchema(propertySchema, rawData);
+    return { message: "Property created" };
+  } catch (error) {
+    return renderError(error);
+  }
+
+  // redirect("/");
 };
