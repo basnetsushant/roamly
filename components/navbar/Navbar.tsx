@@ -2,8 +2,11 @@ import NavSearch from "./NavSearch";
 import LinksDropdown from "./LinksDropdown";
 import { DarkMode } from "./DarkMode";
 import Logo from "./Logo";
+import { fetchProfileImage } from "@/utils/profile";
 
-function Navbar() {
+async function Navbar() {
+  const profileImage = await fetchProfileImage();
+
   return (
     <nav className="border-b">
       <div className="container flex flex-col sm:flex-row  sm:justify-between sm:items-center flex-wrap gap-4 py-8">
@@ -11,7 +14,7 @@ function Navbar() {
         <NavSearch />
         <div className="flex gap-4 items-center ">
           <DarkMode />
-          <LinksDropdown />
+          <LinksDropdown profileImage={profileImage} />
         </div>
       </div>
     </nav>

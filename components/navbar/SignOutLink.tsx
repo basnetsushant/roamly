@@ -2,7 +2,6 @@
 
 import { SignOutButton } from "@clerk/nextjs";
 import { toast } from "sonner";
-import { Button } from "../ui/button";
 const SignOutLink = () => {
   const handleLogout = () => {
     toast.success("You have been signed out.");

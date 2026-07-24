@@ -3,14 +3,11 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { links } from "@/utils/links";
-import { UserIcon } from "lucide-react";
 import Link from "next/link";
 import { LuAlignLeft } from "react-icons/lu";
 import SignOutLink from "./SignOutLink";
@@ -21,8 +18,13 @@ import {
   SignUpButton,
   Show,
 } from "@clerk/nextjs";
+import UserIcon from "./UserIcon";
 
-const LinksDropdown = () => {
+type Props = {
+  profileImage: string | null;
+};
+
+const LinksDropdown = ({ profileImage }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +33,7 @@ const LinksDropdown = () => {
           className="flex gap-4 max-w-25 cursor-pointer"
         >
           <LuAlignLeft className="w-6 h-6" />
-          <UserIcon />
+          <UserIcon profileImage={profileImage} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
