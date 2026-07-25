@@ -1,18 +1,29 @@
-import { Button } from "@/components/ui/button";
-import React from "react";
+import CategoriesList from "@/components/home/CategoriesList";
+import PropertiesContainer from "@/components/home/PropertiesContainer";
 
-const HomePage = () => {
+type Props = {
+  searchParams: Promise<{
+    category?: string;
+    search?: string;
+  }>;
+};
+
+const HomePage = async ({ searchParams }: Props) => {
+  const { category, search } = await searchParams;
+
+  console.log({ category, search });
+
   return (
-    <div>
-      <h1 className="text-3xl">HomePage</h1>
-      <Button
-        variant="outline"
-        size="lg"
-        className="capitalize m-8"
-      >
-        Click Me
-      </Button>
-    </div>
+    <section>
+      <CategoriesList
+        category={category}
+        search={search}
+      />
+      <PropertiesContainer
+        category={category}
+        search={search}
+      />
+    </section>
   );
 };
 
