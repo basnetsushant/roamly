@@ -1,7 +1,7 @@
 import { fetchProperties } from "@/utils/actions";
-import { PropertyCardProps } from "@/utils/types";
-import EmptyList from "./EmptyList";
 import PropertiesList from "./PropertiesList";
+import EmptyList from "./EmptyList";
+import type { PropertyCardProps } from "@/utils/types";
 
 async function PropertiesContainer({
   category,
@@ -14,6 +14,7 @@ async function PropertiesContainer({
     category,
     search,
   });
+
   if (properties.length === 0) {
     return (
       <EmptyList
@@ -23,7 +24,7 @@ async function PropertiesContainer({
       />
     );
   }
+
   return <PropertiesList properties={properties} />;
 }
-
 export default PropertiesContainer;
