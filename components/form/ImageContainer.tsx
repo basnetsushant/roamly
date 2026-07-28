@@ -6,7 +6,7 @@ import Image from "next/image";
 import { LuUser } from "react-icons/lu";
 import { Button } from "../ui/button";
 import FormContainer from "./FormContainer";
-import SubmitButton from "./Buttons";
+import { SubmitButton } from "./Buttons";
 
 type ImageInputContainerProps = {
   image: string;
@@ -52,7 +52,10 @@ function ImageContainer(props: ImageInputContainerProps) {
           <FormContainer action={action}>
             {props.children}
             <ImageInput />
-            <SubmitButton size="sm" className="mt-2" />
+            <SubmitButton
+              size="sm"
+              className="mt-2"
+            />
           </FormContainer>
         </div>
       )}
