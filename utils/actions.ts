@@ -231,3 +231,36 @@ export const toggleFavoriteAction = async (prevState: {
     return renderError(error);
   }
 };
+
+export const fetchFavorites = async () => {
+  const user = await getAuthUser();
+  const favorites = prisma.favorite.findMany({
+    where: {
+      profileId: user.id,
+    },
+    select: {
+      property: {
+        select: {
+          id: true,
+          name: true,
+          tagline: true,
+          price: true,
+          country: true,
+          image: true,
+        },
+      },
+    },
+  });
+  return (await favorites).map((favorite) => favorite.property);
+};
+
+export const fetchPropertiesDetails = async (id: string) => {
+  return prisma.property.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      profile: true,
+    },
+  });
+};
