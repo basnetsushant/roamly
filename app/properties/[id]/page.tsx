@@ -1,5 +1,13 @@
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
+import PropertyRating from "@/components/card/PropertyRating";
+import BookingCalendar from "@/components/properties/BookingCalendar";
 import BreadCrumbs from "@/components/properties/BreadCrumbs";
+import Description from "@/components/properties/Description";
+import ImageContainer from "@/components/properties/ImageContainer";
+import PropertyDetails from "@/components/properties/PropertyDetails";
+import ShareButton from "@/components/properties/ShareButton";
+import UserInfo from "@/components/properties/UserInfo";
+import { Separator } from "@/components/ui/separator";
 import { fetchPropertiesDetails } from "@/utils/actions";
 import { redirect } from "next/navigation";
 import { FaShare } from "react-icons/fa";
@@ -10,7 +18,8 @@ async function page({ params }: { params: { id: string } }) {
   if (!property) redirect("/");
   const { baths, bedrooms, beds, guests } = property;
   const details = { baths, bedrooms, beds, guests };
-
+  const profileImage = property.profile.profileImage;
+  const firstName = property.profile.firstName;
   return (
     <section>
       <BreadCrumbs name={property.name} />
@@ -18,12 +27,41 @@ async function page({ params }: { params: { id: string } }) {
         <h1 className="text-4xl font-semibold capitalize">
           {property.tagline}
         </h1>
+
         <div className="flex items-center gap-4">
           {/* share button */}
-          <FaShare />
+          <ShareButton
+            propertyId={property.id}
+            name={property.name}
+          />
           <FavoriteToggleButton propertyId={property.id} />
         </div>
       </header>
+      <ImageContainer
+        mainImage={property.image}
+        name={property.name}
+      />
+      <section className="lg:grid lg:grid-cols-12 gap-x-12 mt-12">
+        <div className="lg:col-span-8">
+          <div className="flex gap-x-4 items-center">
+            <h1 className="text-xl">{property.name}</h1>
+            <PropertyRating
+              inPage
+              propertyId={property.id}
+            />
+          </div>
+          <PropertyDetails details={details} />
+          <UserInfo profile={{ firstName, profileImage }} />
+          <Separator className="mt-4" />
+
+          <Description description={property.description} />
+        </div>
+
+        <div className="lg:col-span-4 flex flex-col items-center">
+          {/* calendar */}
+          <BookingCalendar />
+        </div>
+      </section>
     </section>
   );
 }

@@ -3460,7 +3460,7 @@ function ImageContainer({
 }: {
   mainImage: string;
   name: string;
-}) {
+}) { 
   return (
     <section className="h-75 md:h-125 relative mt-8">
       <Image
