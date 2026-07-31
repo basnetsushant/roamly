@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  createReviewSchema,
   imageSchema,
   profileSchema,
   propertySchema,
@@ -265,12 +266,49 @@ export const fetchPropertiesDetails = async (id: string) => {
   });
 };
 
-export const createReviewAction = async () => {
-  return { message: "create review" };
+export const createReviewAction = async (
+  prevState: any,
+  formData: FormData,
+) => {
+  const user = await getAuthUser();
+  try {
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validateWithZodSchema(createReviewSchema, rawData);
+
+    await prisma.review.create({
+      data: {
+        ...validatedFields,
+        profileId: user.id,
+      },
+    });
+    revalidatePath(`properties/${validatedFields.propertyId}`);
+    return { message: "Review submitted successfully" };
+  } catch (error) {
+    return renderError(error);
+  }
 };
 
-export const fetchPropertyReviews = async () => {
-  return { message: "fetch reviews" };
+export const fetchPropertyReviews = async (propertyId: string) => {
+  const reviews = await prisma.review.findMany({
+    where: {
+      propertyId,
+    },
+    select: {
+      id: true,
+      rating: true,
+      comment: true,
+      profile: {
+        select: {
+          firstName: true,
+          profileImage: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return reviews;
 };
 
 export const fetchPropertyReviewsByUser = async () => {

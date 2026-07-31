@@ -14,7 +14,10 @@ function SubmitReview({ propertyId }: { propertyId: string }) {
 
   return (
     <div className="mt-8">
-      <Button onClick={() => setIsReviewFormVisible((prev) => !prev)}>
+      <Button
+        className="cursor-pointer"
+        onClick={() => setIsReviewFormVisible((prev) => !prev)}
+      >
         Leave a Review
       </Button>
       {isReviewFormVisible && (
