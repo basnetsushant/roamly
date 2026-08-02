@@ -12,7 +12,8 @@ import PropertyReviews from "@/components/reviews/PropertyReviews";
 import SubmitReview from "@/components/reviews/SubmitReview";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetchPropertiesDetails } from "@/utils/actions";
+import { fetchPropertiesDetails, findExistingReview } from "@/utils/actions";
+import { auth } from "@clerk/nextjs/server";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
@@ -23,6 +24,7 @@ const DynamicMap = dynamic(
     loading: () => <Skeleton className="h-100 w-full" />,
   },
 );
+
 async function page({ params }: { params: { id: string } }) {
   const { id } = await params;
   const property = await fetchPropertiesDetails(id);
@@ -31,6 +33,12 @@ async function page({ params }: { params: { id: string } }) {
   const details = { baths, bedrooms, beds, guests };
   const profileImage = property.profile.profileImage;
   const firstName = property.profile.firstName;
+
+  const { userId } = await auth();
+  const isNotOwner = property.profile.clerkId !== userId;
+  const reviewDoesNotExist =
+    userId && isNotOwner && !(await findExistingReview(userId, property.id));
+
   return (
     <section>
       <BreadCrumbs name={property.name} />
@@ -75,8 +83,7 @@ async function page({ params }: { params: { id: string } }) {
         </div>
       </section>
 
-      <SubmitReview propertyId={property.id} />
-
+      {reviewDoesNotExist && <SubmitReview propertyId={property.id} />}
       <PropertyReviews propertyId={property.id} />
     </section>
   );

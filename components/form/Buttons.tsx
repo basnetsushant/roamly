@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { SignInButton } from "@clerk/nextjs";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { LuPen, LuTrash2 } from "react-icons/lu";
 
 type btnSize = "default" | "lg" | "sm";
 
@@ -72,6 +73,39 @@ export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
         <FaHeart />
       ) : (
         <FaRegHeart />
+      )}
+    </Button>
+  );
+};
+
+type actionType = "edit" | "delete";
+
+export const IconButton = ({ actionType }: { actionType: actionType }) => {
+  const { pending } = useFormStatus();
+
+  const renderIcon = () => {
+    switch (actionType) {
+      case "edit":
+        return <LuPen />;
+      case "delete":
+        return <LuTrash2 />;
+      default:
+        const never: never = actionType;
+        throw new Error(`Invalid action type: ${never}`);
+    }
+  };
+
+  return (
+    <Button
+      type="submit"
+      size="icon"
+      variant="link"
+      className="p-2 cursor-pointer"
+    >
+      {pending ? (
+        <Spinner className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        renderIcon()
       )}
     </Button>
   );
