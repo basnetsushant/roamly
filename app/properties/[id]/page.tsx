@@ -1,7 +1,6 @@
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
 import PropertyRating from "@/components/card/PropertyRating";
 import Amenities from "@/components/properties/Amenities";
-import BookingCalendar from "@/components/properties/BookingCalendar";
 import BreadCrumbs from "@/components/properties/BreadCrumbs";
 import Description from "@/components/properties/Description";
 import ImageContainer from "@/components/properties/ImageContainer";
@@ -24,7 +23,13 @@ const DynamicMap = dynamic(
     loading: () => <Skeleton className="h-100 w-full" />,
   },
 );
-
+const DynamicBookingWrapper = dynamic(
+  () => import("@/components/bookings/BookingWrapper"),
+  {
+    ssr: !!false,
+    loading: () => <Skeleton className="h-50 w-full" />,
+  },
+);
 async function page({ params }: { params: { id: string } }) {
   const { id } = await params;
   const property = await fetchPropertiesDetails(id);
@@ -79,7 +84,11 @@ async function page({ params }: { params: { id: string } }) {
 
         <div className="lg:col-span-4 flex flex-col items-center">
           {/* calendar */}
-          <BookingCalendar />
+          <DynamicBookingWrapper
+            propertyId={property.id}
+            price={property.price}
+            bookings={property.bookings}
+          />
         </div>
       </section>
 

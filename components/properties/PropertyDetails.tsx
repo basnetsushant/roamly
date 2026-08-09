@@ -1,5 +1,4 @@
 import { formatQuantity } from "@/utils/format";
-import React from "react";
 
 type PropertyDetailsProps = {
   details: {
