@@ -39,7 +39,7 @@ function ImageContainer(props: ImageInputContainerProps) {
       )}
       <Button
         variant="outline"
-        className="cursor-pointer"
+        className="cursor-pointer capitalize"
         size="sm"
         onClick={() => {
           setIsUpdateFormVisible((prev) => !prev);

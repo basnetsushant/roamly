@@ -16,7 +16,7 @@ function CountriesInput({ defaultValue }: { defaultValue?: string }) {
         htmlFor={name}
         className="capitalize mb-1"
       >
-        counry
+        country
       </Label>
       <Select
         defaultValue={defaultValue || formattedCountries[0].code}
