@@ -22,9 +22,10 @@ import UserIcon from "./UserIcon";
 
 type Props = {
   profileImage: string | null;
+  isAdminUser: boolean;
 };
 
-const LinksDropdown = ({ profileImage }: Props) => {
+const LinksDropdown = ({ profileImage, isAdminUser }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -58,8 +59,12 @@ const LinksDropdown = ({ profileImage }: Props) => {
         </Show>
         <Show when="signed-in">
           {links.map((link) => {
+            if (link.label === "admin" && !isAdminUser) return null;
             return (
-              <DropdownMenuItem key={link.href} asChild>
+              <DropdownMenuItem
+                key={link.href}
+                asChild
+              >
                 <Link
                   href={link.href}
                   className="w-full cursor-pointer capitalize"
