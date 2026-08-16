@@ -59,7 +59,7 @@ const LinksDropdown = ({ profileImage }: Props) => {
         <Show when="signed-in">
           {links.map((link) => {
             return (
-              <DropdownMenuItem key={link.href}>
+              <DropdownMenuItem key={link.href} asChild>
                 <Link
                   href={link.href}
                   className="w-full cursor-pointer capitalize"
