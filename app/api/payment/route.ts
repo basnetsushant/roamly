@@ -75,7 +75,6 @@ export const POST = async (req: NextRequest) => {
       clientSecret: session.client_secret,
     });
   } catch (error) {
-    console.log(error);
 
     return Response.json(null, {
       status: 500,

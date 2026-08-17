@@ -13,7 +13,6 @@ type Props = {
 const HomePage = async ({ searchParams }: Props) => {
   const { category, search } = await searchParams;
 
-  console.log({ category, search });
 
   return (
     <section>

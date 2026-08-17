@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HomeAway",
+  title: "Roamly",
   description: "Feel at home, away from home.",
 };
 

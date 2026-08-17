@@ -14,7 +14,7 @@ function CategoriesList({
   return (
     <section>
       <ScrollArea className="py-6">
-        <div className="flex gap-x-4">
+        <div className="flex justify-center gap-x-4">
           {categories.map((item) => {
             const isActive = item.label === category;
             return (
