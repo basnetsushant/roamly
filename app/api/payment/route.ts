@@ -1,11 +1,12 @@
 import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-import { type NextRequest, type NextResponse } from "next/server";
+import { type NextRequest } from "next/server";
 
 import { formatDate } from "@/utils/format";
 import { prisma } from "@/lib/db";
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+
+export const POST = async (req: NextRequest) => {
   const requestHeaders = new Headers(req.headers);
   const origin = requestHeaders.get("origin");
 
@@ -41,7 +42,10 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded_page",
-      metadata: { bookingId: booking.id },
+
+      metadata: {
+        bookingId: booking.id,
+      },
 
       line_items: [
         {
@@ -50,25 +54,31 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
             currency: "usd",
 
             product_data: {
-              name: `${name}`,
+              name,
               images: [image],
               description: `Stay in this wonderful place for ${totalNights} nights, from ${formatDate(
                 checkIn,
               )} to ${formatDate(checkOut)}. Enjoy your stay!`,
             },
+
             unit_amount: orderTotal * 100,
           },
         },
       ],
+
       mode: "payment",
+
       return_url: `${origin}/api/confirm?session_id={CHECKOUT_SESSION_ID}`,
     });
-    return Response.json({ clientSecret: session.client_secret });
+
+    return Response.json({
+      clientSecret: session.client_secret,
+    });
   } catch (error) {
     console.log(error);
 
     return Response.json(null, {
-      status: 404,
+      status: 500,
       statusText: "Internal Server Error",
     });
   }

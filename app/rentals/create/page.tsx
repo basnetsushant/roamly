@@ -24,13 +24,13 @@ function CreatePropertyPage() {
               name="name"
               type="text"
               label="Name (20 limit)"
-              defaultValue="Cabin in Latvia"
+              placeholder="Cabin in Latvia"
             />
             <FormInput
               name="tagline"
               type="text"
               label="Tagline (30 limit)"
-              defaultValue="Dream Gateway Awaits You Here"
+              placeholder="Dream Gateway Awaits You Here"
             />
             {/* price */}
             <PriceInput />

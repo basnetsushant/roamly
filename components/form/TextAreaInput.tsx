@@ -4,7 +4,7 @@ import { Textarea } from "../ui/textarea";
 type TextAreaInputProps = {
   name: string;
   labelText?: string;
-  defaultValue: string;
+  defaultValue?: string;
 };
 
 // const tempDefaultDescription =
