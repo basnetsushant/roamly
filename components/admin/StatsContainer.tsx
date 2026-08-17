@@ -11,11 +11,11 @@ async function StatsContainer() {
       />
       <StatsCard
         title="properties"
-        value={data?.usersCount || 0}
+        value={data?.propertiesCount || 0}
       />
       <StatsCard
         title="bookings"
-        value={data?.usersCount || 0}
+        value={data?.bookingsCount || 0}
       />
     </div>
   );
