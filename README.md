@@ -1,5 +1,5 @@
 # Roamly
-A full-stack property rental app built with Next.js — inspired by Airbnb. Users can list properties, search and filter rentals, make bookings, leave reviews, manage favorites, and pay through Stripe.
+A full-stack property rental app built with Next.js. Users can list properties, search and filter rentals, make bookings, leave reviews, manage favorites, and pay through Stripe.
 
 ## Features
 
